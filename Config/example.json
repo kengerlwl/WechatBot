@@ -1,0 +1,14 @@
+{
+  "secrets":{
+      "token":"xxx"
+  },
+  "email": {
+      "smtpserver": "smtp.163.com",
+      "user": "xxx@163.com",
+      "password": "xxx"
+  },
+  "proxy":{
+      "proxy_server":"xxx",
+      "proxy_port":"xxx"
+  }
+}
