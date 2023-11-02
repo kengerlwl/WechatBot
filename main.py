@@ -18,6 +18,7 @@ def send_msg_to_target_object(msg, who):
 
 
 # 处理从队列接收到的消息
+@Kit.retry(3, 2)
 def process_queue_message(ch, method, properties, body):
     """
     处理从队列接收到的消息的回调函数
@@ -34,7 +35,8 @@ def process_queue_message(ch, method, properties, body):
     target = data["target"]
     print("the target is:", target, "  the message is:", msg)
     try:
-        send_msg_to_target_object(msg, target)
+        now = Kit.str_time()
+        send_msg_to_target_object(now + msg, target)
         # 手动确认消息
         ch.basic_ack(delivery_tag=method.delivery_tag)
 
