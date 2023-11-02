@@ -3,6 +3,8 @@
 - PyOfficeRobot
 - 提供消息队列来实现选择性推送, wechat_queue
 
+# 使用
+- 使用途中，微信要在前台
 
 
 ## 用消息队列

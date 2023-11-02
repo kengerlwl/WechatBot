@@ -33,7 +33,16 @@ def process_queue_message(ch, method, properties, body):
     msg = data["message"]
     target = data["target"]
     print("the target is:", target, "  the message is:", msg)
-    send_msg_to_target_object(msg, target)
+    try:
+        send_msg_to_target_object(msg, target)
+        # 手动确认消息
+        ch.basic_ack(delivery_tag=method.delivery_tag)
+
+    except Exception as e:
+        print("send message error:", e)
+        # 重新获取当前微信客户端
+        wx = WeChat()
+        wx.GetSessionList()
 
 
 
@@ -51,6 +60,6 @@ if __name__ == '__main__':
     connection = Kit.rabbitmq_conn(conf, "rabbitmq")
     channel = connection.channel()
     channel.queue_declare(queue=queue_name)
-    channel.basic_consume(queue=queue_name, on_message_callback=process_queue_message, auto_ack=True)
+    channel.basic_consume(queue=queue_name, on_message_callback=process_queue_message, auto_ack=False)
     print("Waiting for messages. To exit press CTRL+C")
     channel.start_consuming()
